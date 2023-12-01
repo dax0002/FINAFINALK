@@ -1,0 +1,83 @@
+@model FinalProject.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Movie Details</h1>
+
+<div>
+    <h4>@Model.MovieTitle</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MovieTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MovieTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre) <!-- CHECK THIS -->
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre.GenreTitle) <!-- CHECK THIS -->
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tagline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tagline)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Runtime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Runtime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Actors)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Actors)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rating.MPAARating)
+        </dd>
+        <dt class="col-sm-2">
+            Review Average
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                double avgRating = Model.Reviews.Any() ? Model.Reviews.Average(review => review.Rating) : 0;
+            }
+            @avgRating.ToString("0.00")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Schedules)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Schedules)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MovieID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

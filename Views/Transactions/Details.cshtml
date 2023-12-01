@@ -1,0 +1,98 @@
+﻿@model FinalProject.Models.Transaction
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionStatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GiftTicket)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GiftTicket)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipient)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipient)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Grand Total")
+        </dt>
+        <dd class="col-sm-10">
+            @string.Format("{0:C}", Model.OrderTotal)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Transaction Details</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Start Time</th>
+                <th>Seat</th>
+                <th>Payment Method</th>
+                <th>Ticket Price</th>
+                
+                <!-- Add other columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.TransactionDetails)
+            {
+                <tr>
+                    <td>@(detail.Schedule?.Movie?.MovieTitle)</td>
+                    <td>@detail.Schedule?.StartTime</td>
+                    <td>@detail.Seat</td>
+                    <td>@detail.PaymentMethod</td>
+                    <td>@string.Format("{0:C}", detail.TicketPrice)</td>
+                    <!-- Add other columns as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-sm-6">
+            <strong>Subtotal:</strong> @string.Format("{0:C}", Model.Subtotal)
+        </div>
+        <div class="col-sm-6">
+            <strong>Sales Tax:</strong> @string.Format("{0:C}", Math.Ceiling(Model.OrderTax * 100) / 100)
+        </div>
+        <div class="col-sm-6">
+            <strong>Grand Total:</strong> @string.Format("{0:C}", Math.Ceiling(Model.OrderTotal * 100) / 100)
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.TransactionID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

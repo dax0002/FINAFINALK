@@ -1,0 +1,6 @@
+﻿@model FinalProject.Models.TransactionDetail
+
+<div class="form-group">
+    <label asp-for="Schedule.ScheduleID">Schedule</label>
+    @Html.DropDownListFor(m => m.Schedule.ScheduleID, (SelectList)ViewData["Schedules"], "Select a Schedule", new { @class = "form-control" })
+</div>

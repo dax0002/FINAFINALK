@@ -1,0 +1,66 @@
+﻿@model FinalProject.Models.Schedule
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Schedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ScheduleID" />
+            <div class="form-group">
+                <label asp-for="Movie.MovieTitle" class="control-label"></label>
+                <select asp-for="Movie.MovieTitle" asp-items="@ViewBag.Movies" class="form-control"></select>
+                <span asp-validation-for="Movie.MovieTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Theater" class="control-label"></label>
+                <select asp-for="Theater" asp-items="@Html.GetEnumSelectList<Theater>()" class="form-control"></select>
+                <span asp-validation-for="Theater" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.TicketType" class="control-label"></label>
+                <select asp-for="Price.TicketType" asp-items="@ViewBag.TicketTypes" class="form-control">
+                    <option selected="selected" value="">Select Ticket Type</option>
+                </select>
+                <span asp-validation-for="Price.TicketType" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SpecialEvent" /> @Html.DisplayNameFor(model => model.SpecialEvent)
+                </label>
+            </div>
+
+            <!-- Add dropdown for Movie -->
+            
+
+            <!-- Add dropdown for TicketType -->
+            
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

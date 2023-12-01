@@ -1,0 +1,31 @@
+﻿@model FinalProject.Models.DisplayStartTimesViewModel
+
+@{
+    ViewData["Title"] = "DisplayStartTimeandTheaters";
+}
+
+
+<!-- Your form for creating multiple transaction details -->
+<h2>Select a Time</h2>
+
+<form method="post" asp-action="DisplayStartTimesAndTheaters">
+    @foreach (var schedule in Model.Schedules)
+    {
+        <div>
+            <label>
+                <input type="radio" name="viewModel.SelectedScheduleID" value="@schedule.ScheduleID" required />
+                @schedule.StartTime - Theater: @schedule.Theater
+            </label>
+        </div>
+    }
+
+    <input type="hidden" name="transactionID" value="@Model.TransactionID" />
+
+    <button type="submit">Next</button>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

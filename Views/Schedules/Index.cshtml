@@ -1,0 +1,135 @@
+﻿@model IEnumerable<FinalProject.Models.Schedule>
+
+@{
+    ViewData["Title"] = "Schedule";
+
+    string GetSortOrder(string column)
+    {
+        if (String.IsNullOrEmpty(ViewData["CurrentSort"] as string))
+        {
+            return column + "_asc";
+        }
+        else
+        {
+            return ViewData["CurrentSort"].ToString() == column + "_asc" ? column + "_desc" : "";
+        }
+    }
+}
+
+
+
+<h1>Index</h1>
+
+<p>
+<p>
+    @if (User.IsInRole("Admin"))
+    {<a asp-action="Create">Create New</a>}
+    else
+    {
+        <div></div>
+    }
+</p>
+</p>
+
+<form asp-action="Index" method="get">
+    <p>
+        Movie Title: <input type="text" name="searchTitle">
+        Genre: <input type="text" name="searchGenre">
+        Start Date: <input type="date" name="searchDate">
+        <input type="submit" value="Search">
+    </p>
+</form>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@GetSortOrder("title")">@Html.DisplayNameFor(model => model.Movie.MovieTitle)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Rating)
+            </th>
+            <th>
+                Average Review Rating
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@GetSortOrder("StartTime")">@Html.DisplayNameFor(model => model.StartTime)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Theater)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialEvent)
+            </th>
+            <th>
+                Available Seats
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.MovieTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Genre.GenreTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Rating.MPAARating)
+                </td>
+                <td>
+                    @{
+                        double avgRating = item.Movie.Reviews.Any() ? item.Movie.Reviews.Average(review => review.Rating) : 0;
+                    }
+                    @avgRating.ToString("0.00")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Theater)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecialEvent)
+                </td>
+                <td>
+                    @{
+                        int totalSeats = 25; // Assuming total seats per schedule is 25
+                        int bookedSeats = item.TransactionDetails?.Count ?? 0;
+                        int availableSeats = totalSeats - bookedSeats;
+                    }
+                    @availableSeats
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ScheduleID">Edit</a>
+                    }
+                    else
+                    {
+                        <div>   </div>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.ScheduleID">Details</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

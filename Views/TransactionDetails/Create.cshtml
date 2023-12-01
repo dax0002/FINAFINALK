@@ -1,0 +1,43 @@
+﻿@model FinalProject.Models.TransactionDetail
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TransactionDetail</h4>
+<hr />
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Transaction.TransactionID">Transaction</label>
+        <input asp-for="Transaction.TransactionID" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="SelectedMovieID">Movie</label>
+        @Html.DropDownListFor(m => m.SelectedMovieID, (SelectList)ViewData["Movies"], "Select a Movie", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" name="submitButton" value="SelectMovie">Select Movie</button>
+    </div>
+
+    @if (Model.SelectedMovieID != 0)
+    {
+        <!-- If a movie is selected, show the schedule dropdown -->
+        <div class="form-group">
+            <label asp-for="Schedule.ScheduleID">Schedule</label>
+            @Html.DropDownListFor(m => m.Schedule.ScheduleID, (SelectList)ViewData["Schedules"], "Select a Schedule", new { @class = "form-control" })
+        </div>
+
+        <!-- Other fields as needed -->
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    }
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

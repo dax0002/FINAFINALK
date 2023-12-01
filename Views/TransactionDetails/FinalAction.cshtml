@@ -1,0 +1,53 @@
+﻿@model FinalProject.Models.TransactionDetail
+
+@{
+    ViewData["Title"] = "FinalAction";
+}
+
+<h1>Final Action</h1>
+
+<p>Selected Movie: @Model.Schedule.Movie.MovieTitle</p>
+<p>Start Time: @Model.Schedule.StartTime</p>
+
+<div>
+    <h4>Seat Availability</h4>
+    <hr />
+    <table>
+        @for (char row = 'A'; row <= 'E'; row++)
+        {
+            <tr>
+                @for (int col = 1; col <= 5; col++)
+                {
+                    <td>
+                        @{
+                            string seatNumber = $"{row}{col}";
+                            bool isSeatTaken = Model.Schedule.TransactionDetails.Any(td => td.Seat == seatNumber);
+                        }
+
+                        <span style="background-color: @(isSeatTaken ? "red" : "green");">
+                            @seatNumber
+                        </span>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>
+<!-- Form for entering payment type and seat -->
+<form method="post" asp-action="FinalAction">
+    <div class="form-group">
+        <label asp-for="PaymentMethod" class="control-label"></label>
+        @Html.DropDownListFor(model => model.PaymentMethod, new SelectList(Enum.GetValues(typeof(PaymentMethod))))
+    </div>
+
+
+    <div class="form-group">
+        <label for="seat">Seat:</label>
+        <input type="text" id="seat" name="seat" class="form-control" placeholder="Enter seat (A1 to E5)" required />
+        <span asp-validation-for="Seat" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" name="scheduleID" value="@Model.Schedule.ScheduleID" />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

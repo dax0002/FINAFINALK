@@ -1,0 +1,117 @@
+@model IEnumerable<FinalProject.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<!-- FOR ADMIN ONLY -->
+<p>
+    @if (User.IsInRole("Admin"))
+        { <a asp-action="Create">Create New Movie</a>}
+    else
+{
+            <div></div>
+}
+</p>
+
+<h1>Search</h1>
+
+<form asp-action="Index" asp-controller="Movies" method="get">
+    <p class="form-group">
+        Search Movies: <input name="SearchString" class="form-control" /><br />
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-action="DetailedSearch" class="btn btn-success">Detailed Search</a>
+        <a asp-action="Index" class="btn btn-danger">Show All</a>
+    </p>
+</form>
+
+<form asp-action="Index" asp-controller="Schedules" method="get">
+    <p>
+        Movie Title: <input type="text" name="searchTitle">
+        Genre: <input type="text" name="searchGenre">
+        Start Date: <input type="date" name="searchDate">
+        <input type="submit" value="Search">
+    </p>
+</form>
+
+<!-- Display the count of selected job postings out of all job postings -->
+<p>Displaying @ViewBag.SelectedMovies out of @ViewBag.AllMovies Movies</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre) <!-- CHECK THIS -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tagline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Runtime)
+            </th>
+            <th>
+                Average Review Rating
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actors)
+            </th>
+            <th>
+                Schedules
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tagline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Runtime)
+                </td>
+                <td>
+                    @{
+                        double avgRating = item.Reviews.Any() ? item.Reviews.Average(review => review.Rating) : 0;
+                    }
+                    @avgRating.ToString("0.00")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating.MPAARating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actors)
+                </td>
+                <td>
+                    @foreach (var schedule in item.Schedules)
+                    {
+                        <p>@schedule.StartTime</p>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.MovieID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

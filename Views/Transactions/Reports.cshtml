@@ -1,0 +1,28 @@
+﻿@model IEnumerable<FinalProject.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>Reports</h1>
+
+<div>
+    <h2>Transaction Reports</h2>
+    <div>
+        <h4>Total Seats Sold: @ViewBag.TotalSeatsSold</h4>
+        <h4>Total Revenue: @ViewBag.TotalRevenue</h4>
+    </div>
+</div>
+
+<table class="table">
+    <!-- Display other transaction data if needed -->
+    @foreach (var transaction in ViewBag.Transactions)
+    {
+        <tr>
+            <!-- Display transaction details -->
+            <td>@transaction.TransactionNumber</td>
+            <td>@transaction.TransactionDate</td>
+            <!-- Add more columns as needed -->
+        </tr>
+    }
+</table>

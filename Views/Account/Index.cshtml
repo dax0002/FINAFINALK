@@ -1,0 +1,42 @@
+﻿@model IndexViewModel
+@{
+    ViewBag.Title = "Change Password";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>User Name:</dt>
+        <dd>@Model.UserName</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Password:</dt>
+        <dd>
+            [@Html.ActionLink("Change your password", "ChangePassword")]
+        </dd>
+
+        <dt>Date of Birth:</dt>
+        <dd>@Model.DateofBirth</dd>
+
+        <dt>Street:</dt>
+        <dd>@Model.Street</dd>
+
+        <dt>City:</dt>
+        <dd>@Model.City</dd>
+
+        <dt>State:</dt>
+        <dd>@Model.State</dd>
+
+        <dt>Zip:</dt>
+        <dd>@Model.Zip</dd>
+
+        <p>
+            @Html.ActionLink("Edit Account", "Edit", "Account")
+        </p>
+    </dl>
+</div>
